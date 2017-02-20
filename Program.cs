@@ -10,25 +10,41 @@ namespace ConsoleApplication
         public static int Xor(int a,int b){
             return a & ~b | ~a & b; 
         }
-        public static void Main(string[] args)
-        {
-            Console.WriteLine("----------Charachter frequency----------");
 
+        public static string Readfile(string path){
             string fileContent;
 
-            using (StreamReader reader = File.OpenText("./texts/artistic.txt"))
+            using (StreamReader reader = File.OpenText(path))
             {
                 fileContent = reader.ReadToEnd();
             }
 
-            var frequency = Calculator.CalculateFriquency(fileContent);
+            return fileContent;
+        }
+
+        public static void CalculateAndPrintFrequency(string text){
+            var frequency = Calculator.CalculateFriquency(text);
 
             foreach (var pair in frequency.OrderByDescending(pair => pair.Value))
             {
                 Console.WriteLine("{0} - {1}", pair.Key, pair.Value);
             }
-
+        }
+        public static void Main(string[] args)
+        {
+            Console.WriteLine("----------Charachter frequency----------");
             
+            Console.WriteLine("----------Artistic----------------------");
+            string fileContent = Readfile("./texts/artistic.txt");
+            CalculateAndPrintFrequency(fileContent);
+
+            Console.WriteLine("-----------Fairy tale-------------------");
+            fileContent = Readfile("./texts/fairy tale.txt");
+            CalculateAndPrintFrequency(fileContent);
+
+            Console.WriteLine("-----------Tech documentation-----------");
+            fileContent = Readfile("./texts/techDoc.txt");
+            CalculateAndPrintFrequency(fileContent);
 
             Console.WriteLine("-----------------Cesar encrypting--------------");
             Alphabet latinAlphabet = new Alphabet("abcdefghijklmnopqrstuvwxyz");
